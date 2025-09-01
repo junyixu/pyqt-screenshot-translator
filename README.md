@@ -1,16 +1,20 @@
 # Screenshot Translator
 
-KDE Spectacle 截图翻译工具，支持 CLI 和 PyQt6 GUI 两种界面。使用 Gemini API 进行 OCR 和英译中，支持 Markdown 和 LaTeX 公式。
+![Demo](demo_3x.gif)
+
+KDE Spectacle 截图翻译工具，支持 CLI 和 PyQt6 GUI 两种界面。使用 OpenAI 格式的 API 进行 OCR 和英译中，支持 Markdown 和 LaTeX 公式。
 
 ## 安装
 
-### 方式一：pip 安装 (推荐)
+### 方式一：AUR 安装 (Arch Linux)
 ```bash
-# 安装 CLI 版本
-pip install screenshot-translator
+# 使用 yay 或其他 AUR helper
+yay -S screenshot-translator
 
-# 安装 GUI 版本 (包含额外依赖)
-pip install screenshot-translator[gui]
+# 或手动安装
+git clone https://aur.archlinux.org/screenshot-translator.git
+cd screenshot-translator
+makepkg -si
 ```
 
 ### 方式二：从源码安装
@@ -30,17 +34,18 @@ pip install -e .
 
 - Python 3.7+
 - KDE Spectacle (KDE Plasma 自带)
-- libnotify (用于桌面通知)
+- kdialog (用于桌面通知)
 
 ```bash
 # Arch Linux - 安装系统依赖
-sudo pacman -S spectacle libnotify
+sudo pacman -S spectacle kdialog
 
 # GUI 版本需要 PyQt6 (使用系统包)
 sudo pacman -S python-pyqt6 python-pyqt6-webengine
 
 # 验证安装
 which spectacle
+which kdialog
 python -c "import PyQt6; print('PyQt6 available')"
 ```
 
@@ -49,10 +54,10 @@ python -c "import PyQt6; print('PyQt6 available')"
 ### 环境变量配置 (可选)
 
 ```bash
-# API 配置
+# API 配置 (OpenAI 格式)
 export TRANSLATOR_API_KEY="your-api-key"
-export TRANSLATOR_BASE_URL="your-endpoint/v1"   # 默认: https://lpzgncibqfos.ap-southeast-1.clawcloudrun.com/v1
-export TRANSLATOR_MODEL="model-name"             # 默认: gemini-2.5-flash
+export TRANSLATOR_BASE_URL="your-endpoint/v1"   # 支持 OpenAI 兼容的 API 端点
+export TRANSLATOR_MODEL="model-name"             # e.g. gemini-2.5-flash
 export TRANSLATOR_TEMP_PATH="/tmp/custom.png"   # 默认: /tmp/screenshot_translator_capture.png
 ```
 
@@ -72,7 +77,7 @@ python -c "from screenshot_translator.screenshot import take_screenshot; print('
 # 作为模块运行
 python -m screenshot_translator.cli
 
-# 安装后使用命令行工具
+# 直接运行
 screenshot-translator-cli
 ```
 
@@ -81,8 +86,21 @@ screenshot-translator-cli
 # 作为模块运行
 python -m screenshot_translator.gui
 
-# 安装后使用命令行工具
+# 直接运行
 screenshot-translator-gui
+```
+
+### 桌面应用使用
+
+**GUI 版本**：安装后可以直接从应用菜单启动，作为桌面应用使用
+
+**CLI 版本**：适合设置全局快捷键，快速调用截图翻译功能
+
+```bash
+# KDE 全局快捷键设置（使用 CLI 版本）
+1. 打开系统设置 → 快捷键 → 自定义快捷键
+2. 添加命令：`screenshot-translator-cli`
+3. 设置快捷键组合
 ```
 
 #### GUI 操作流程
@@ -108,19 +126,6 @@ screenshot-translator-gui
 - **错误处理**: 完善的错误报告和用户反馈
 - **环境变量配置**: 支持灵活的配置管理
 
-## 演示
-
-### GUI 版本演示
-
-![Demo](demo_3x.gif)
-
-**演示说明**:
-1. 启动 GUI 应用
-2. 点击 "Take Screenshot" 按钮
-3. 使用鼠标选择要翻译的屏幕区域
-4. 等待 OCR 识别和翻译处理
-5. 查看 Markdown 格式的翻译结果 (支持 LaTeX 公式渲染)
-
 ## 项目结构
 
 ```
@@ -135,31 +140,11 @@ screenshot-translator-gui
 └── README.md                # 本文档
 ```
 
-### 方式三：AUR 安装 (Arch Linux)
-```bash
-# 使用 yay 或其他 AUR helper
-yay -S screenshot-translator
-
-# 或手动安装
-git clone https://aur.archlinux.org/screenshot-translator.git
-cd screenshot-translator
-makepkg -si
-```
 
 ## 开发
 
 ### 本地开发
 ```bash
-git clone <repo-url>
-cd pyqt_screanshot_translator
-
-# 创建虚拟环境
-python -m venv venv
-source venv/bin/activate
-
-# 安装开发依赖
-pip install -e .[gui]
-
 # 运行测试
 python -m screenshot_translator.cli
 python -m screenshot_translator.gui
@@ -201,8 +186,3 @@ python setup.py sdist
    - 确认 API 配置正确
    - 查看终端错误信息
 
-### KDE 全局快捷键设置
-
-1. 打开系统设置 → 快捷键 → 自定义快捷键
-2. 添加命令：`screenshot-translator-gui`
-3. 设置快捷键组合
