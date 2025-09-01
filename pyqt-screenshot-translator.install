@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# This script is executed after package installation/removal
+
+post_install() {
+    echo "Running post_install script..."
+    
+    # Update desktop database
+    if [ -d /usr/share/applications ]; then
+        update-desktop-database /usr/share/applications 2>/dev/null || true
+    fi
+    
+    # Show installation summary
+    echo ""
+    echo "PyQt Screenshot Translator has been installed!"
+    echo ""
+    echo "Usage:"
+    echo "  CLI version: pyqt-screenshot-translator-cli"
+    echo "  GUI version: pyqt-screenshot-translator-gui"
+    echo ""
+    echo "Desktop files are installed in /usr/share/applications/"
+    echo ""
+    echo "Dependencies:"
+    echo "  - spectacle (KDE screenshot tool)"
+    echo "  - kdialog (for Qt/KDE desktop notifications)"
+    echo ""
+    echo "Configuration:"
+    echo "  Make sure to set up your Gemini API key in the configuration"
+    echo ""
+}
+
+post_upgrade() {
+    echo "Running post_upgrade script..."
+    post_install
+}
+
+post_remove() {
+    echo "Running post_remove script..."
+    
+    # Update desktop database
+    if [ -d /usr/share/applications ]; then
+        update-desktop-database /usr/share/applications 2>/dev/null || true
+    fi
+    
+    echo "PyQt Screenshot Translator has been removed."
+}
