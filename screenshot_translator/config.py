@@ -9,4 +9,4 @@ TEMP_FILE_PATH = os.getenv('TRANSLATOR_TEMP_PATH', '/tmp/screenshot_translator_c
 
 CLI_PROMPT = "Please OCR all text in this image and translate any English text to Chinese. Return the Chinese translation."
 
-GUI_PROMPT = "请识别图片中的所有文本，并将英文翻译成中文。保持原文的排版格式，如果是LaTeX公式，请使用MathJax兼容的语法：行内公式用$公式$，独立公式用$$公式$$；如果公式后面有编号，请用 \\tag{num} 表示，如 \\tag{1}。只返回翻译后的中文结果，不要包含原文。"
+GUI_PROMPT = "请先 OCR 识别图片中的所有文本，然后另起一行，将英文翻译成中文。保持原文的排版格式，如果是LaTeX公式，请使用MathJax兼容的语法：行内公式用$公式$，独立公式用$$公式$$；如果公式后面有编号，请用 \\tag{num} 表示，如 \\tag{1}。只返回翻译后的中文结果，不要包含原文。"
